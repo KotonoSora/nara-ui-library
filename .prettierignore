@@ -7,9 +7,12 @@ public
 .nvmrc
 index.html
 LICENSE
+*.js
 *.cjs
 *.mjs
 *.json
 *.ts
 *.lock
 *.md
+
+!commitlint.config.js

@@ -17,6 +17,10 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "19.3.0",
+    "@commitlint/config-conventional": "19.2.2",
+    "@commitlint/cz-commitlint": "19.2.0",
+    "@commitlint/prompt-cli": "19.3.1",
     "@storybook/addon-a11y": "8.1.9",
     "@storybook/addon-essentials": "8.1.9",
     "@storybook/addon-interactions": "8.1.9",
@@ -31,6 +35,7 @@
     "@typescript-eslint/eslint-plugin": "7.2.0",
     "@typescript-eslint/parser": "7.2.0",
     "@vitejs/plugin-react-swc": "3.5.0",
+    "conventional-changelog-conventionalcommits": "8.0.0",
     "eslint": "8.57.0",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-react-refresh": "0.4.6",

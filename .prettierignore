@@ -1,0 +1,15 @@
+# Ignore artifacts:
+.husky
+.storybook
+.vscode
+.yarn
+public
+.nvmrc
+index.html
+LICENSE
+*.cjs
+*.mjs
+*.json
+*.ts
+*.lock
+*.md

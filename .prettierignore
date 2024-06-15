@@ -15,4 +15,5 @@ LICENSE
 *.lock
 *.md
 
+!.eslintrc.cjs
 !commitlint.config.js

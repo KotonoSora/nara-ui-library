@@ -8,7 +8,7 @@
   ],
   "exports": "./dist/main.es.js",
   "module": "./dist/main.es.js",
-  "types": "./dist/main.d.js",
+  "types": "./dist/main.d.ts",
   "scripts": {
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

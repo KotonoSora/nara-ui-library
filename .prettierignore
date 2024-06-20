@@ -1,19 +1,5 @@
 # Ignore artifacts:
-.husky
-.storybook
-.vscode
 .yarn
-public
-.nvmrc
-index.html
-LICENSE
-*.js
-*.cjs
-*.mjs
-*.json
-*.ts
-*.lock
-*.md
-
-!.eslintrc.cjs
-!commitlint.config.js
+.pnp.cjs
+.pnp.loader.mjs
+README.md

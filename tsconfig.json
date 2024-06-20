@@ -23,9 +23,9 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*", "components/*"]
+      "@/*": ["src/*"]
     }
   },
-  "include": ["src", "components"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

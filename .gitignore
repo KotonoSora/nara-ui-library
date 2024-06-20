@@ -32,9 +32,9 @@ dist-ssr
 !.yarn/sdks
 !.yarn/versions
 
-
 # Storybook
 *storybook.log
 storybook-static
 
 # Other
+.npmrc

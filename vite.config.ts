@@ -42,8 +42,8 @@ export default defineConfig({
         }),
       ),
       output: {
-        entryFileNames: "[name].js",
-        assetFileNames: "assets/[name][extname]",
+        entryFileNames: "[name].[format].js",
+        assetFileNames: "[ext]/[name][extname]",
         globals: {
           react: "React",
           "react-dom": "React-dom",

@@ -4,7 +4,7 @@
     "type": "git",
     "url": "git+https://github.com/KotonoSora/nara-ui-library.git"
   },
-  "version": "0.0.2-beta-1",
+  "version": "0.0.3-beta-1",
   "type": "module",
   "files": [
     "dist"

@@ -42,7 +42,7 @@ export default defineConfig({
         }),
       ),
       output: {
-        entryFileNames: "[name].[format].js",
+        entryFileNames: "[name].js",
         assetFileNames: "[ext]/[name][extname]",
         globals: {
           react: "React",

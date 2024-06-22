@@ -1,0 +1,18 @@
+@import "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap";
+
+%open-sans-font {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+$weights: 300, 400, 500, 600, 700, 800;
+
+@each $weight in $weights {
+  .open-sans-#{$weight} {
+    @extend %open-sans-font;
+
+    font-weight: #{$weight};
+  }
+}

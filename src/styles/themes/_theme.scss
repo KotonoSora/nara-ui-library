@@ -1,0 +1,17 @@
+@use "sass:map";
+@import "default";
+@import "dark";
+@import "light";
+
+$themes: (
+  default: $default-theme,
+  dark: $dark-theme,
+  light: $light-theme,
+);
+
+@mixin apply-theme($theme-name) {
+  $theme: map.get($themes, $theme-name);
+
+  background-color: map.get($theme, background-color);
+  color: map.get($theme, text-color);
+}

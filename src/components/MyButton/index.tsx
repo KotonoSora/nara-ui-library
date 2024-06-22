@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 
-import styles from "./styles.module.css";
+import styles from "./styles.module.scss";
 
 interface ComponentProps extends React.ComponentProps<"button"> {
   primary?: boolean;

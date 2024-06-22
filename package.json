@@ -23,8 +23,8 @@
     "prepare": "husky",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "stylelint": "stylelint **/*.css",
-    "stylelint:fix": "stylelint **/*.css --fix",
+    "stylelint": "stylelint **/*.@(css|scss)",
+    "stylelint:fix": "stylelint **/*.@(css|scss) --fix",
     "prepublishOnly": "yarn lint && yarn stylelint && yarn build"
   },
   "dependencies": {

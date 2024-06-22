@@ -1,7 +1,7 @@
 /** @type {import('stylelint').Config} */
 
 export default {
-  extends: ["stylelint-config-standard"],
+  extends: ["stylelint-config-standard-scss"],
   rules: {
     // Regex for BEM classes: https://gist.github.com/Potherca/f2a65491e63338659c3a0d2b07eee382
     "selector-class-pattern":

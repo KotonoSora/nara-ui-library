@@ -28,7 +28,11 @@ export default defineConfig({
     rollupOptions: {
       external: ["react", "react-dom", "react/jsx-runtime"],
       input: Object.fromEntries(
-        globSync(["src/components/**/*.tsx", "src/main.tsx"]).map((file) => {
+        globSync([
+          "src/components/**/*.tsx",
+          "src/components/**/*.scss",
+          "src/main.tsx",
+        ]).map((file) => {
           // This remove `src/` as well as the file extension from each
           // file, so e.g. src/nested/foo.js becomes nested/foo
           const entryName = relative(
@@ -43,7 +47,7 @@ export default defineConfig({
       ),
       output: {
         entryFileNames: "[name].js",
-        assetFileNames: "[ext]/[name].[hash][extname]",
+        assetFileNames: "[name][extname]",
         globals: {
           react: "React",
           "react-dom": "React-dom",

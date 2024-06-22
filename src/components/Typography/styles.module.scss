@@ -1,0 +1,20 @@
+@import "../../styles/main";
+
+.typography {
+  font-family: $font-family-base;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+
+  &.default-theme {
+    @include apply-theme(default);
+  }
+
+  &.dark-theme {
+    @include apply-theme(dark);
+  }
+
+  &.light-theme {
+    @include apply-theme(light);
+  }
+}

@@ -3,10 +3,10 @@ import clsx from "clsx";
 
 import styles from "./styles.module.scss";
 
-interface ComponentProps extends React.ComponentProps<"button"> {
-  primary?: boolean;
-  size?: "small" | "medium" | "large";
-  label: string;
+export interface IMyButtonProps extends React.ComponentProps<"button"> {
+  readonly primary?: boolean;
+  readonly size?: "small" | "medium" | "large";
+  readonly label: string;
 }
 
 export function MyButton({
@@ -14,7 +14,7 @@ export function MyButton({
   size = "medium",
   label,
   ...props
-}: ComponentProps) {
+}: IMyButtonProps) {
   const style = clsx(styles.button, {
     [styles["button--primary"]]: primary,
     [styles[`button--${size}`]]: size,

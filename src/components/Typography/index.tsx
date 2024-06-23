@@ -3,17 +3,17 @@ import clsx from "clsx";
 
 import styles from "./styles.module.scss";
 
-interface ComponentProps extends React.ComponentProps<"p"> {
-  text: string;
-  weight: 300 | 400 | 500 | 600 | 700 | 800;
-  theme?: "default" | "dark" | "light";
+export interface ITypographyProps extends React.ComponentProps<"p"> {
+  readonly text: string;
+  readonly weight?: 300 | 400 | 500 | 600 | 700 | 800;
+  readonly theme?: "default" | "dark" | "light";
 }
 
 export function Typography({
   text,
-  weight,
+  weight = 400,
   theme = "default",
-}: ComponentProps) {
+}: ITypographyProps) {
   const className = styles[`open-sans-${weight}`];
 
   return (

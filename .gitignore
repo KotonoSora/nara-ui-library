@@ -36,5 +36,13 @@ dist-ssr
 *storybook.log
 storybook-static
 
+# SonarQube
+.scannerwork
+sonar-project.properties
+
+# Vitest
+coverage
+
 # Other
 .npmrc
+.yarnrc.yml

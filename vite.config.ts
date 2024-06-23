@@ -12,7 +12,11 @@ export default defineConfig({
     react(),
     libInjectCss(),
     dts({
-      exclude: ["src/**/*.mdx", "src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+      exclude: [
+        "src/**/*.mdx",
+        "src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+        "tests",
+      ],
     }),
   ],
   resolve: {

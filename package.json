@@ -9,8 +9,8 @@
   "files": [
     "dist"
   ],
-  "exports": "./dist/main.mjs",
-  "module": "./dist/main.mjs",
+  "exports": "./dist/main.js",
+  "module": "./dist/main.js",
   "types": "./dist/main.d.ts",
   "scripts": {
     "build": "tsc && vite build",

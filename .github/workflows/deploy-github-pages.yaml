@@ -22,6 +22,10 @@ jobs:
     steps:
       # Manual Checkout
       - uses: actions/checkout@v4
+      - name: Enable Corepack before setting up Node
+        run: corepack enable
+      - name: Using latest yarn version
+        run: yarn set version 4.3.0
 
       # Set up Node
       - uses: actions/setup-node@v4

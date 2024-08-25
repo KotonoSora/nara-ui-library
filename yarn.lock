@@ -7180,9 +7180,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nara-vite-react-boilerplate@workspace:.":
+"nara-ui-library@workspace:.":
   version: 0.0.0-use.local
-  resolution: "nara-vite-react-boilerplate@workspace:."
+  resolution: "nara-ui-library@workspace:."
   dependencies:
     "@eslint/js": "npm:9.9.0"
     "@storybook/addon-essentials": "npm:8.2.9"

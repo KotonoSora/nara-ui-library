@@ -1,4 +1,4 @@
-import {VitePWA} from 'vite-plugin-pwa'
+import { VitePWA } from 'vite-plugin-pwa'
 
 export default VitePWA({
   registerType: 'autoUpdate',
@@ -31,7 +31,7 @@ export default VitePWA({
     skipWaiting: true,
     runtimeCaching: [
       {
-        urlPattern: ({url}) => url.pathname.startsWith('/api/'),
+        urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
         handler: 'NetworkFirst',
         options: {
           cacheName: 'api-cache',
@@ -42,7 +42,7 @@ export default VitePWA({
         },
       },
       {
-        urlPattern: ({url}) => url.pathname.startsWith('/assets/'),
+        urlPattern: ({ url }) => url.pathname.startsWith('/assets/'),
         handler: 'CacheFirst',
         options: {
           cacheName: 'assets-cache',
@@ -53,7 +53,7 @@ export default VitePWA({
         },
       },
       {
-        urlPattern: ({url}) => url.pathname.startsWith('/'),
+        urlPattern: ({ url }) => url.pathname.startsWith('/'),
         handler: 'StaleWhileRevalidate',
         options: {
           cacheName: 'pages-cache',

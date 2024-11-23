@@ -1,7 +1,8 @@
-import { Button } from '#shadcn-ui/app/ui/button'
 import { FC } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
+
+import { Button } from '#shadcn-ui/app/ui/button'
 
 export const NotFoundPage: FC = () => {
   return (
@@ -39,7 +40,7 @@ export const NotFoundPage: FC = () => {
         className='mt-6'
         data-testid='go-back-link'
       >
-        <Link to='/home'>Go Back Home</Link>
+        <Link to='/'>Go Back Home</Link>
       </Button>
     </div>
   )

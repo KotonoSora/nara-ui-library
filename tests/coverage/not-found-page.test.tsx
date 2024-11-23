@@ -1,9 +1,9 @@
-import { NotFoundPage } from '#root/core/presentation/pages/not-found-page'
-import '@testing-library/jest-dom'
 import { render, waitFor } from '@testing-library/react'
 import { HelmetProvider } from 'react-helmet-async'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter } from 'react-router'
 import { describe, expect, it } from 'vitest'
+
+import { NotFoundPage } from '#core/presentation/pages/not-found-page'
 
 describe('NotFoundPage Component', () => {
   it('renders the page title correctly', async () => {
@@ -47,7 +47,7 @@ describe('NotFoundPage Component', () => {
 
     // Verify the link inside the button
     const linkElement = getByTestId('go-back-link')
-    expect(linkElement).toHaveAttribute('href', '/home')
+    expect(linkElement).toHaveAttribute('href', '/')
     expect(linkElement).toHaveTextContent('Go Back Home')
   })
 })

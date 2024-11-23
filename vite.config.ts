@@ -1,10 +1,11 @@
-import react from '@vitejs/plugin-react-swc'
 import { resolve } from 'node:path'
+
+import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
 
 import pwa from './plugins/pwa'
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), pwa],
   resolve: {

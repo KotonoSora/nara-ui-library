@@ -23,15 +23,14 @@ jobs:
       # Manual Checkout
       - uses: actions/checkout@v4
 
-      # Set up Node
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.18.0'
+      # Set up Bun
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2.0.1
 
       #👇 Add Storybook build and deploy to GitHub Pages as a step in the workflow
       - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
         with:
-          install_command: npm install # default: npm ci
-          build_command: npm run build-storybook # default: npm run build-storybook
+          install_command: bun install # default: npm ci
+          build_command: bun run build-storybook # default: npm run build-storybook
           path: storybook-static # default: dist/storybook
           checkout: false # default: true

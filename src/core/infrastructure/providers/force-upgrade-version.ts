@@ -9,7 +9,9 @@ export function forceUpgradeVersion() {
       window.location.reload()
     })
 
-    navigator.serviceWorker.register('/sw.js').then((registration: ServiceWorkerRegistration) => {
+    const serviceWorkerUrl = import.meta.env.BASE_URL + 'sw.js'
+
+    navigator.serviceWorker.register(serviceWorkerUrl).then((registration: ServiceWorkerRegistration) => {
       registration.addEventListener('updatefound', () => {
         const newWorker: ServiceWorker | null = registration.installing
 

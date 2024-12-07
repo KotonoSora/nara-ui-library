@@ -21,6 +21,14 @@ src/core/infrastructure/tailwindcss/global.css
 !src/features/
 !src/features/**
 
+# Allow src/stories and its contents
+!src/stories
+!src/stories/**
+
+# Allow .storybook and its contents
+!.storybook/
+!.storybook/**
+
 # Allow tests and its contents
 !tests/
 !tests/**

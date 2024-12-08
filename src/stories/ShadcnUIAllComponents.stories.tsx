@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
 import { format } from 'date-fns'
 import Autoplay from 'embla-carousel-autoplay'
 import {
   AlertCircle,
   ArrowUpCircle,
   BellRing,
+  Calculator,
   CalendarIcon,
   Check,
   CheckCircle2,
@@ -12,12 +14,15 @@ import {
   ChevronRight,
   ChevronsUpDown,
   Circle,
+  CreditCard,
   HelpCircle,
   Loader2,
   LucideIcon,
   Mail,
   MoreHorizontal,
+  Settings,
   Slash,
+  Smile,
   Tags,
   Terminal,
   Trash,
@@ -80,12 +85,30 @@ import { Checkbox } from '#shadcn-ui/components/ui/checkbox'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '#shadcn-ui/components/ui/collapsible'
 import {
   Command,
+  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
+  CommandShortcut,
 } from '#shadcn-ui/components/ui/command'
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from '#shadcn-ui/components/ui/context-menu'
 import {
   Drawer,
   DrawerClose,
@@ -1561,7 +1584,10 @@ export const ComboboxTemplate: Story = {
           </PopoverTrigger>
           <PopoverContent className='w-[200px] p-0'>
             <Command>
-              <CommandInput placeholder='Search framework...' />
+              <CommandInput
+                className='border-transparent focus:border-transparent focus:ring-0'
+                placeholder='Search framework...'
+              />
               <CommandList>
                 <CommandEmpty>No framework found.</CommandEmpty>
                 <CommandGroup>
@@ -1612,7 +1638,10 @@ export const ComboboxTemplate: Story = {
               align='start'
             >
               <Command>
-                <CommandInput placeholder='Change status...' />
+                <CommandInput
+                  className='border-transparent focus:border-transparent focus:ring-0'
+                  placeholder='Change status...'
+                />
                 <CommandList>
                   <CommandEmpty>No results found.</CommandEmpty>
                   <CommandGroup>
@@ -1683,6 +1712,7 @@ export const ComboboxTemplate: Story = {
                   <DropdownMenuSubContent className='p-0'>
                     <Command>
                       <CommandInput
+                        className='border-transparent focus:border-transparent focus:ring-0'
                         placeholder='Filter label...'
                         autoFocus={true}
                       />
@@ -1735,7 +1765,10 @@ export const ComboboxTemplate: Story = {
               align='start'
             >
               <Command>
-                <CommandInput placeholder='Filter status...' />
+                <CommandInput
+                  className='border-transparent focus:border-transparent focus:ring-0'
+                  placeholder='Filter status...'
+                />
                 <CommandList>
                   <CommandEmpty>No results found.</CommandEmpty>
                   <CommandGroup>
@@ -1774,7 +1807,10 @@ export const ComboboxTemplate: Story = {
             <DrawerContent>
               <div className='mt-4 border-t'>
                 <Command>
-                  <CommandInput placeholder='Filter status...' />
+                  <CommandInput
+                    className='border-transparent focus:border-transparent focus:ring-0'
+                    placeholder='Filter status...'
+                  />
                   <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup>
@@ -1831,7 +1867,10 @@ export const ComboboxTemplate: Story = {
                     </PopoverTrigger>
                     <PopoverContent className='w-[200px] p-0'>
                       <Command>
-                        <CommandInput placeholder='Search language...' />
+                        <CommandInput
+                          className='border-transparent focus:border-transparent focus:ring-0'
+                          placeholder='Search language...'
+                        />
                         <CommandList>
                           <CommandEmpty>No language found.</CommandEmpty>
                           <CommandGroup>
@@ -1869,6 +1908,186 @@ export const ComboboxTemplate: Story = {
       </div>
     )
   },
+}
+
+export const CommandTemplate: Story = {
+  name: 'Command',
+  render: args => {
+    const [open, setOpen] = React.useState(false)
+
+    React.useEffect(() => {
+      const down = (e: KeyboardEvent) => {
+        if (e.key === 'j' && (e.metaKey || e.ctrlKey)) {
+          e.preventDefault()
+          setOpen(open => !open)
+        }
+      }
+
+      document.addEventListener('keydown', down)
+      return () => document.removeEventListener('keydown', down)
+    }, [])
+
+    return (
+      <div
+        className='flex flex-col gap-1 items-start'
+        {...args}
+      >
+        <Command className='rounded-lg border shadow-md md:min-w-[450px]'>
+          <CommandInput
+            className='border-transparent focus:border-transparent focus:ring-0'
+            placeholder='Type a command or search...'
+          />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup heading='Suggestions'>
+              <CommandItem>
+                <CalendarIcon />
+                <span>Calendar</span>
+              </CommandItem>
+              <CommandItem>
+                <Smile />
+                <span>Search Emoji</span>
+              </CommandItem>
+              <CommandItem disabled>
+                <Calculator />
+                <span>Calculator</span>
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading='Settings'>
+              <CommandItem>
+                <User />
+                <span>Profile</span>
+                <CommandShortcut>⌘P</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <CreditCard />
+                <span>Billing</span>
+                <CommandShortcut>⌘B</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <Settings />
+                <span>Settings</span>
+                <CommandShortcut>⌘S</CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>
+
+        <p className='text-sm text-muted-foreground'>
+          Press{' '}
+          <kbd className='pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
+            <span className='text-xs'>⌘</span>J
+          </kbd>
+        </p>
+        <CommandDialog
+          open={open}
+          onOpenChange={setOpen}
+        >
+          <DialogTitle className='hidden'>Choose a command</DialogTitle>
+          <DialogDescription className='hidden'>Press ⌘K to open the keyboard shortcuts</DialogDescription>
+          <CommandInput
+            className='border-transparent focus:border-transparent focus:ring-0'
+            placeholder='Type a command or search...'
+          />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup heading='Suggestions'>
+              <CommandItem>
+                <CalendarIcon />
+                <span>Calendar</span>
+              </CommandItem>
+              <CommandItem>
+                <Smile />
+                <span>Search Emoji</span>
+              </CommandItem>
+              <CommandItem>
+                <Calculator />
+                <span>Calculator</span>
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading='Settings'>
+              <CommandItem>
+                <User />
+                <span>Profile</span>
+                <CommandShortcut>⌘P</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <CreditCard />
+                <span>Billing</span>
+                <CommandShortcut>⌘B</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <Settings />
+                <span>Settings</span>
+                <CommandShortcut>⌘S</CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </CommandDialog>
+      </div>
+    )
+  },
+}
+
+export const ContextMenuTemplate: Story = {
+  name: 'Context Menu',
+  render: args => (
+    <div
+      className='flex flex-col gap-1 items-start'
+      {...args}
+    >
+      <ContextMenu>
+        <ContextMenuTrigger className='flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm'>
+          Right click here
+        </ContextMenuTrigger>
+        <ContextMenuContent className='w-64'>
+          <ContextMenuItem inset>
+            Back
+            <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem
+            inset
+            disabled
+          >
+            Forward
+            <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem inset>
+            Reload
+            <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuSub>
+            <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+            <ContextMenuSubContent className='w-48'>
+              <ContextMenuItem>
+                Save Page As...
+                <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
+              </ContextMenuItem>
+              <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+              <ContextMenuItem>Name Window...</ContextMenuItem>
+              <ContextMenuSeparator />
+              <ContextMenuItem>Developer Tools</ContextMenuItem>
+            </ContextMenuSubContent>
+          </ContextMenuSub>
+          <ContextMenuSeparator />
+          <ContextMenuCheckboxItem checked>
+            Show Bookmarks Bar
+            <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
+          </ContextMenuCheckboxItem>
+          <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+          <ContextMenuSeparator />
+          <ContextMenuRadioGroup value='pedro'>
+            <ContextMenuLabel inset>People</ContextMenuLabel>
+            <ContextMenuSeparator />
+            <ContextMenuRadioItem value='pedro'>Pedro Duarte</ContextMenuRadioItem>
+            <ContextMenuRadioItem value='colm'>Colm Tuite</ContextMenuRadioItem>
+          </ContextMenuRadioGroup>
+        </ContextMenuContent>
+      </ContextMenu>
+    </div>
+  ),
 }
 
 export const ToastTemplate: Story = {

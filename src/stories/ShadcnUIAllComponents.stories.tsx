@@ -3,15 +3,26 @@ import { format } from 'date-fns'
 import Autoplay from 'embla-carousel-autoplay'
 import {
   AlertCircle,
+  ArrowUpCircle,
   BellRing,
   CalendarIcon,
   Check,
+  CheckCircle2,
   ChevronDown,
   ChevronRight,
+  ChevronsUpDown,
+  Circle,
+  HelpCircle,
   Loader2,
+  LucideIcon,
   Mail,
+  MoreHorizontal,
   Slash,
+  Tags,
   Terminal,
+  Trash,
+  User,
+  XCircle,
 } from 'lucide-react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -65,6 +76,16 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '#shadcn-ui/components/ui/chart'
+import { Checkbox } from '#shadcn-ui/components/ui/checkbox'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '#shadcn-ui/components/ui/collapsible'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '#shadcn-ui/components/ui/command'
 import {
   Drawer,
   DrawerClose,
@@ -78,7 +99,14 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '#shadcn-ui/components/ui/dropdown-menu'
 import {
@@ -107,6 +135,14 @@ function Page() {
 const meta = {
   title: 'Shadcn-UI/Components',
   component: Page,
+  decorators: [
+    Story => (
+      <>
+        <Story />
+        <Toaster />
+      </>
+    ),
+  ],
 } satisfies Meta<typeof Page>
 
 export default meta
@@ -507,14 +543,6 @@ export const ButtonTemplate: Story = {
 
 export const CalendarTemplate: Story = {
   name: 'Calendar',
-  decorators: [
-    Story => (
-      <>
-        <Story />
-        <Toaster />
-      </>
-    ),
-  ],
   render: args => {
     const [date, setDate] = React.useState<Date | undefined>(new Date())
 
@@ -1130,16 +1158,721 @@ export const ChartTemplate: Story = {
   },
 }
 
+export const CheckboxTemplate: Story = {
+  name: 'Checkbox',
+  render: args => {
+    const { toast } = useToast()
+
+    const FormSchema = z.object({
+      mobile: z.boolean().default(false).optional(),
+    })
+
+    const form = useForm<z.infer<typeof FormSchema>>({
+      resolver: zodResolver(FormSchema),
+      defaultValues: {
+        mobile: true,
+      },
+    })
+
+    function onSubmit(data: z.infer<typeof FormSchema>) {
+      toast({
+        title: 'You submitted the following values:',
+        description: (
+          <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+            <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      })
+    }
+
+    const itemsCustom = [
+      {
+        id: 'recents',
+        label: 'Recents',
+      },
+      {
+        id: 'home',
+        label: 'Home',
+      },
+      {
+        id: 'applications',
+        label: 'Applications',
+      },
+      {
+        id: 'desktop',
+        label: 'Desktop',
+      },
+      {
+        id: 'downloads',
+        label: 'Downloads',
+      },
+      {
+        id: 'documents',
+        label: 'Documents',
+      },
+    ] as const
+
+    const FormSchemaCustom = z.object({
+      items: z.array(z.string()).refine(value => value.some(item => item), {
+        message: 'You have to select at least one item.',
+      }),
+    })
+
+    const formCustom = useForm<z.infer<typeof FormSchemaCustom>>({
+      resolver: zodResolver(FormSchemaCustom),
+      defaultValues: {
+        items: ['recents', 'home'],
+      },
+    })
+
+    function onSubmitCustom(data: z.infer<typeof FormSchemaCustom>) {
+      toast({
+        title: 'You submitted the following values:',
+        description: (
+          <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+            <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      })
+    }
+
+    return (
+      <div
+        className='flex flex-col gap-1 items-start'
+        {...args}
+      >
+        <div className='flex items-center space-x-2'>
+          <Checkbox id='terms' />
+          <label
+            htmlFor='terms'
+            className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+          >
+            Accept terms and conditions
+          </label>
+        </div>
+
+        <div className='items-top flex space-x-2'>
+          <Checkbox id='terms1' />
+          <div className='grid gap-1.5 leading-none'>
+            <label
+              htmlFor='terms1'
+              className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+            >
+              Accept terms and conditions
+            </label>
+            <p className='text-sm text-muted-foreground'>You agree to our Terms of Service and Privacy Policy.</p>
+          </div>
+        </div>
+
+        <div className='flex items-center space-x-2'>
+          <Checkbox
+            id='terms2'
+            disabled
+          />
+          <label
+            htmlFor='terms2'
+            className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+          >
+            Accept terms and conditions
+          </label>
+        </div>
+
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='space-y-6'
+          >
+            <FormField
+              control={form.control}
+              name='mobile'
+              render={({ field }) => (
+                <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className='space-y-1 leading-none'>
+                    <FormLabel>Use different settings for my mobile devices</FormLabel>
+                    <FormDescription>
+                      You can manage your mobile notifications in the <Link to='/examples/forms'>mobile settings</Link>{' '}
+                      page.
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+            <Button type='submit'>Submit</Button>
+          </form>
+        </Form>
+
+        <Form {...formCustom}>
+          <form
+            onSubmit={formCustom.handleSubmit(onSubmitCustom)}
+            className='space-y-8'
+          >
+            <FormField
+              control={formCustom.control}
+              name='items'
+              render={() => (
+                <FormItem>
+                  <div className='mb-4'>
+                    <FormLabel className='text-base'>Sidebar</FormLabel>
+                    <FormDescription>Select the items you want to display in the sidebar.</FormDescription>
+                  </div>
+                  {itemsCustom.map(item => (
+                    <FormField
+                      key={item.id}
+                      control={formCustom.control}
+                      name='items'
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={item.id}
+                            className='flex flex-row items-start space-x-3 space-y-0'
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(item.id)}
+                                onCheckedChange={checked => {
+                                  return checked
+                                    ? field.onChange([...field.value, item.id])
+                                    : field.onChange(field.value?.filter(value => value !== item.id))
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className='font-normal'>{item.label}</FormLabel>
+                          </FormItem>
+                        )
+                      }}
+                    />
+                  ))}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type='submit'>Submit</Button>
+          </form>
+        </Form>
+      </div>
+    )
+  },
+}
+
+export const CollapsibleTemplate: Story = {
+  name: 'Collapsible',
+  render: args => {
+    const [isOpen, setIsOpen] = React.useState(false)
+
+    return (
+      <div
+        className='flex flex-col gap-1 items-start'
+        {...args}
+      >
+        <Collapsible
+          open={isOpen}
+          onOpenChange={setIsOpen}
+          className='w-[350px] space-y-2'
+        >
+          <div className='flex items-center justify-between space-x-4 px-4'>
+            <h4 className='text-sm font-semibold'>@peduarte starred 3 repositories</h4>
+            <CollapsibleTrigger asChild>
+              <Button
+                variant='ghost'
+                size='sm'
+                className='w-9 p-0'
+              >
+                <ChevronsUpDown className='h-4 w-4' />
+                <span className='sr-only'>Toggle</span>
+              </Button>
+            </CollapsibleTrigger>
+          </div>
+          <div className='rounded-md border px-4 py-3 font-mono text-sm'>@radix-ui/primitives</div>
+          <CollapsibleContent className='space-y-2'>
+            <div className='rounded-md border px-4 py-3 font-mono text-sm'>@radix-ui/colors</div>
+            <div className='rounded-md border px-4 py-3 font-mono text-sm'>@stitches/react</div>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
+    )
+  },
+}
+
+export const ComboboxTemplate: Story = {
+  name: 'Combobox',
+  render: args => {
+    const [open, setOpen] = React.useState(false)
+    const [value, setValue] = React.useState('')
+
+    const frameworks = [
+      {
+        value: 'next.js',
+        label: 'Next.js',
+      },
+      {
+        value: 'sveltekit',
+        label: 'SvelteKit',
+      },
+      {
+        value: 'nuxt.js',
+        label: 'Nuxt.js',
+      },
+      {
+        value: 'remix',
+        label: 'Remix',
+      },
+      {
+        value: 'astro',
+        label: 'Astro',
+      },
+    ]
+
+    type Status = {
+      value: string
+      label: string
+      icon: LucideIcon
+    }
+
+    const statuses: Status[] = [
+      {
+        value: 'backlog',
+        label: 'Backlog',
+        icon: HelpCircle,
+      },
+      {
+        value: 'todo',
+        label: 'Todo',
+        icon: Circle,
+      },
+      {
+        value: 'in progress',
+        label: 'In Progress',
+        icon: ArrowUpCircle,
+      },
+      {
+        value: 'done',
+        label: 'Done',
+        icon: CheckCircle2,
+      },
+      {
+        value: 'canceled',
+        label: 'Canceled',
+        icon: XCircle,
+      },
+    ]
+
+    const [openCustom, setOpenCustom] = React.useState(false)
+    const [selectedStatusCustom, setSelectedStatusCustom] = React.useState<Status | null>(null)
+
+    const labelsCustomDropdown = ['feature', 'bug', 'enhancement', 'documentation', 'design', 'question', 'maintenance']
+
+    const [labelCustomDropdown, setLabelCustomDropdown] = React.useState('feature')
+    const [openCustomDropdown, setOpenCustomDropdown] = React.useState(false)
+
+    type StatusCustomResponsive = {
+      value: string
+      label: string
+    }
+
+    const statusesCustomResponsive: StatusCustomResponsive[] = [
+      {
+        value: 'backlog',
+        label: 'Backlog',
+      },
+      {
+        value: 'todo',
+        label: 'Todo',
+      },
+      {
+        value: 'in progress',
+        label: 'In Progress',
+      },
+      {
+        value: 'done',
+        label: 'Done',
+      },
+      {
+        value: 'canceled',
+        label: 'Canceled',
+      },
+    ]
+
+    const [openCustomResponsive, setOpenCustomResponsive] = React.useState(false)
+    const isMobile = useIsMobile()
+    const [selectedStatusCustomResponsive, setSelectedStatusCustomResponsive] = React.useState<Status | null>(null)
+
+    const { toast } = useToast()
+
+    const languagesCustomForm = [
+      { label: 'English', value: 'en' },
+      { label: 'French', value: 'fr' },
+      { label: 'German', value: 'de' },
+      { label: 'Spanish', value: 'es' },
+      { label: 'Portuguese', value: 'pt' },
+      { label: 'Russian', value: 'ru' },
+      { label: 'Japanese', value: 'ja' },
+      { label: 'Korean', value: 'ko' },
+      { label: 'Chinese', value: 'zh' },
+    ] as const
+
+    const FormSchemaCustomForm = z.object({
+      language: z.string({
+        required_error: 'Please select a language.',
+      }),
+    })
+
+    const formCustomForm = useForm<z.infer<typeof FormSchemaCustomForm>>({
+      resolver: zodResolver(FormSchemaCustomForm),
+    })
+
+    function onSubmitCustomForm(data: z.infer<typeof FormSchemaCustomForm>) {
+      toast({
+        title: 'You submitted the following values:',
+        description: (
+          <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+            <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      })
+    }
+
+    const [openCustomForm, setOpenCustomForm] = React.useState(false)
+
+    return (
+      <div
+        className='flex flex-col gap-1 items-start'
+        {...args}
+      >
+        <Popover
+          open={open}
+          onOpenChange={setOpen}
+        >
+          <PopoverTrigger asChild>
+            <Button
+              variant='outline'
+              role='combobox'
+              aria-expanded={open}
+              className='w-[200px] justify-between'
+            >
+              {value ? frameworks.find(framework => framework.value === value)?.label : 'Select framework...'}
+              <ChevronsUpDown className='opacity-50' />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className='w-[200px] p-0'>
+            <Command>
+              <CommandInput placeholder='Search framework...' />
+              <CommandList>
+                <CommandEmpty>No framework found.</CommandEmpty>
+                <CommandGroup>
+                  {frameworks.map(framework => (
+                    <CommandItem
+                      key={framework.value}
+                      value={framework.value}
+                      onSelect={currentValue => {
+                        setValue(currentValue === value ? '' : currentValue)
+                        setOpen(false)
+                      }}
+                    >
+                      {framework.label}
+                      <Check className={cn('ml-auto', value === framework.value ? 'opacity-100' : 'opacity-0')} />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+
+        <div className='flex items-center space-x-4'>
+          <p className='text-sm text-muted-foreground'>Status</p>
+          <Popover
+            open={openCustom}
+            onOpenChange={setOpenCustom}
+          >
+            <PopoverTrigger asChild>
+              <Button
+                variant='outline'
+                size='sm'
+                className='w-[150px] justify-start'
+              >
+                {selectedStatusCustom ? (
+                  <>
+                    <selectedStatusCustom.icon className='mr-2 h-4 w-4 shrink-0' />
+                    {selectedStatusCustom.label}
+                  </>
+                ) : (
+                  <>+ Set status</>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              className='p-0'
+              side='right'
+              align='start'
+            >
+              <Command>
+                <CommandInput placeholder='Change status...' />
+                <CommandList>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup>
+                    {statuses.map(status => (
+                      <CommandItem
+                        key={status.value}
+                        value={status.value}
+                        onSelect={value => {
+                          setSelectedStatusCustom(statuses.find(priority => priority.value === value) || null)
+                          setOpenCustom(false)
+                        }}
+                      >
+                        <status.icon
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            status.value === selectedStatusCustom?.value ? 'opacity-100' : 'opacity-40'
+                          )}
+                        />
+                        <span>{status.label}</span>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        <div className='flex w-full flex-col items-start justify-between rounded-md border px-4 py-3 sm:flex-row sm:items-center'>
+          <p className='text-sm font-medium leading-none'>
+            <span className='mr-2 rounded-lg bg-primary px-2 py-1 text-xs text-primary-foreground'>
+              {labelCustomDropdown}
+            </span>
+            <span className='text-muted-foreground'>Create a new project</span>
+          </p>
+          <DropdownMenu
+            open={openCustomDropdown}
+            onOpenChange={setOpenCustomDropdown}
+          >
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant='ghost'
+                size='sm'
+              >
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align='end'
+              className='w-[200px]'
+            >
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  <User />
+                  Assign to...
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <CalendarIcon />
+                  Set due date...
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <Tags />
+                    Apply label
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className='p-0'>
+                    <Command>
+                      <CommandInput
+                        placeholder='Filter label...'
+                        autoFocus={true}
+                      />
+                      <CommandList>
+                        <CommandEmpty>No label found.</CommandEmpty>
+                        <CommandGroup>
+                          {labelsCustomDropdown.map(label => (
+                            <CommandItem
+                              key={label}
+                              value={label}
+                              onSelect={value => {
+                                setLabelCustomDropdown(value)
+                                setOpenCustomDropdown(false)
+                              }}
+                            >
+                              {label}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className='text-red-600'>
+                  <Trash />
+                  Delete
+                  <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        {!isMobile ? (
+          <Popover
+            open={openCustomResponsive}
+            onOpenChange={setOpenCustomResponsive}
+          >
+            <PopoverTrigger asChild>
+              <Button
+                variant='outline'
+                className='w-[150px] justify-start'
+              >
+                {selectedStatusCustomResponsive ? <>{selectedStatusCustomResponsive.label}</> : <>+ Set status</>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              className='w-[200px] p-0'
+              align='start'
+            >
+              <Command>
+                <CommandInput placeholder='Filter status...' />
+                <CommandList>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup>
+                    {statusesCustomResponsive.map(status => (
+                      <CommandItem
+                        key={status.value}
+                        value={status.value}
+                        onSelect={value => {
+                          setSelectedStatusCustomResponsive(statuses.find(priority => priority.value === value) || null)
+                          setOpenCustomResponsive(false)
+                        }}
+                      >
+                        {status.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        ) : (
+          <Drawer
+            open={openCustomResponsive}
+            onOpenChange={setOpenCustomResponsive}
+          >
+            <DrawerTrigger asChild>
+              <Button
+                variant='outline'
+                className='w-[150px] justify-start'
+              >
+                {selectedStatusCustomResponsive ? <>{selectedStatusCustomResponsive.label}</> : <>+ Set status</>}
+              </Button>
+            </DrawerTrigger>
+            <DrawerTitle className='hidden'>Choose a status</DrawerTitle>
+            <DrawerDescription className='hidden'>Select a status to set.</DrawerDescription>
+            <DrawerContent>
+              <div className='mt-4 border-t'>
+                <Command>
+                  <CommandInput placeholder='Filter status...' />
+                  <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandGroup>
+                      {statusesCustomResponsive.map(status => (
+                        <CommandItem
+                          key={status.value}
+                          value={status.value}
+                          onSelect={value => {
+                            setSelectedStatusCustomResponsive(
+                              statuses.find(priority => priority.value === value) || null
+                            )
+                            setOpenCustomResponsive(false)
+                          }}
+                        >
+                          {status.label}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </div>
+            </DrawerContent>
+          </Drawer>
+        )}
+
+        <Form {...formCustomForm}>
+          <form
+            onSubmit={formCustomForm.handleSubmit(onSubmitCustomForm)}
+            className='space-y-6'
+          >
+            <FormField
+              control={formCustomForm.control}
+              name='language'
+              render={({ field }) => (
+                <FormItem className='flex flex-col'>
+                  <FormLabel>Language</FormLabel>
+                  <Popover
+                    open={openCustomForm}
+                    onOpenChange={setOpenCustomForm}
+                  >
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant='outline'
+                          role='combobox'
+                          className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')}
+                        >
+                          {field.value
+                            ? languagesCustomForm.find(language => language.value === field.value)?.label
+                            : 'Select language'}
+                          <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className='w-[200px] p-0'>
+                      <Command>
+                        <CommandInput placeholder='Search language...' />
+                        <CommandList>
+                          <CommandEmpty>No language found.</CommandEmpty>
+                          <CommandGroup>
+                            {languagesCustomForm.map(language => (
+                              <CommandItem
+                                value={language.label}
+                                key={language.value}
+                                onSelect={() => {
+                                  formCustomForm.setValue('language', language.value)
+                                  setOpenCustomForm(false)
+                                }}
+                              >
+                                {language.label}
+                                <Check
+                                  className={cn(
+                                    'ml-auto',
+                                    language.value === field.value ? 'opacity-100' : 'opacity-0'
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormDescription>This is the language that will be used in the dashboard.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type='submit'>Submit</Button>
+          </form>
+        </Form>
+      </div>
+    )
+  },
+}
+
 export const ToastTemplate: Story = {
   name: 'Toast',
-  decorators: [
-    Story => (
-      <>
-        <Story />
-        <Toaster />
-      </>
-    ),
-  ],
   render: args => {
     const { toast } = useToast()
 

@@ -1,12 +1,25 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
-import { AlertCircle, CalendarIcon, ChevronDown, ChevronRight, Loader2, Mail, Slash, Terminal } from 'lucide-react'
+import Autoplay from 'embla-carousel-autoplay'
+import {
+  AlertCircle,
+  BellRing,
+  CalendarIcon,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  Loader2,
+  Mail,
+  Slash,
+  Terminal,
+} from 'lucide-react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router'
 import { z } from 'zod'
 
 import type { Meta, StoryObj } from '@storybook/react'
+import type { CarouselApi } from '#shadcn-ui/components/ui/carousel'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '#shadcn-ui/components/ui/accordion'
 import { Alert, AlertDescription, AlertTitle } from '#shadcn-ui/components/ui/alert'
@@ -35,6 +48,14 @@ import {
 } from '#shadcn-ui/components/ui/breadcrumb'
 import { Button } from '#shadcn-ui/components/ui/button'
 import { Calendar } from '#shadcn-ui/components/ui/calendar'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '#shadcn-ui/components/ui/card'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '#shadcn-ui/components/ui/carousel'
 import {
   Drawer,
   DrawerClose,
@@ -60,7 +81,11 @@ import {
   FormLabel,
   FormMessage,
 } from '#shadcn-ui/components/ui/form'
+import { Input } from '#shadcn-ui/components/ui/input'
+import { Label } from '#shadcn-ui/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '#shadcn-ui/components/ui/popover'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '#shadcn-ui/components/ui/select'
+import { Switch } from '#shadcn-ui/components/ui/switch'
 import { Toaster } from '#shadcn-ui/components/ui/toaster'
 import { useIsMobile } from '#shadcn-ui/hooks/use-mobile'
 import { useToast } from '#shadcn-ui/hooks/use-toast'
@@ -568,6 +593,264 @@ export const CalendarTemplate: Story = {
             <Button type='submit'>Submit</Button>
           </form>
         </Form>
+      </div>
+    )
+  },
+}
+
+export const CardTemplate: Story = {
+  name: 'Card',
+  render: args => {
+    const notifications = [
+      {
+        title: 'Your call has been confirmed.',
+        description: '1 hour ago',
+      },
+      {
+        title: 'You have a new message!',
+        description: '1 hour ago',
+      },
+      {
+        title: 'Your subscription is expiring soon!',
+        description: '2 hours ago',
+      },
+    ]
+
+    return (
+      <div
+        className='flex flex-col gap-1 items-start'
+        {...args}
+      >
+        <Card className='w-[350px]'>
+          <CardHeader>
+            <CardTitle>Create project</CardTitle>
+            <CardDescription>Deploy your new project in one-click.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form>
+              <div className='grid w-full items-center gap-4'>
+                <div className='flex flex-col space-y-1.5'>
+                  <Label htmlFor='name'>Name</Label>
+                  <Input
+                    id='name'
+                    placeholder='Name of your project'
+                  />
+                </div>
+                <div className='flex flex-col space-y-1.5'>
+                  <Label htmlFor='framework'>Framework</Label>
+                  <Select>
+                    <SelectTrigger id='framework'>
+                      <SelectValue placeholder='Select' />
+                    </SelectTrigger>
+                    <SelectContent position='popper'>
+                      <SelectItem value='next'>Next.js</SelectItem>
+                      <SelectItem value='sveltekit'>SvelteKit</SelectItem>
+                      <SelectItem value='astro'>Astro</SelectItem>
+                      <SelectItem value='nuxt'>Nuxt.js</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </form>
+          </CardContent>
+          <CardFooter className='flex justify-between'>
+            <Button variant='outline'>Cancel</Button>
+            <Button>Deploy</Button>
+          </CardFooter>
+        </Card>
+
+        <Card className={cn('w-[380px]')}>
+          <CardHeader>
+            <CardTitle>Notifications</CardTitle>
+            <CardDescription>You have 3 unread messages.</CardDescription>
+          </CardHeader>
+          <CardContent className='grid gap-4'>
+            <div className=' flex items-center space-x-4 rounded-md border p-4'>
+              <BellRing />
+              <div className='flex-1 space-y-1'>
+                <p className='text-sm font-medium leading-none'>Push Notifications</p>
+                <p className='text-sm text-muted-foreground'>Send notifications to device.</p>
+              </div>
+              <Switch />
+            </div>
+            <div>
+              {notifications.map((notification, index) => (
+                <div
+                  key={index}
+                  className='mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0'
+                >
+                  <span className='flex h-2 w-2 translate-y-1 rounded-full bg-sky-500' />
+                  <div className='space-y-1'>
+                    <p className='text-sm font-medium leading-none'>{notification.title}</p>
+                    <p className='text-sm text-muted-foreground'>{notification.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button className='w-full'>
+              <Check /> Mark all as read
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    )
+  },
+}
+
+export const CarouselTemplate: Story = {
+  name: 'Carousel',
+  render: args => {
+    const plugin = React.useRef(Autoplay({ delay: 2000, stopOnInteraction: true }))
+
+    const [api, setApi] = React.useState<CarouselApi>()
+    const [current, setCurrent] = React.useState(0)
+    const [count, setCount] = React.useState(0)
+
+    React.useEffect(() => {
+      if (!api) {
+        return
+      }
+
+      setCount(api.scrollSnapList().length)
+      setCurrent(api.selectedScrollSnap() + 1)
+
+      api.on('select', () => {
+        setCurrent(api.selectedScrollSnap() + 1)
+      })
+    }, [api])
+
+    return (
+      <div
+        className='flex flex-col gap-1 items-center'
+        {...args}
+      >
+        <Carousel className='w-full max-w-xs'>
+          <CarouselContent>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <CarouselItem key={index}>
+                <div className='p-1'>
+                  <Card>
+                    <CardContent className='flex aspect-square items-center justify-center p-6'>
+                      <span className='text-4xl font-semibold'>{index + 1}</span>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+
+        <Carousel
+          opts={{
+            align: 'start',
+          }}
+          className='w-full max-w-sm'
+        >
+          <CarouselContent>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <CarouselItem
+                key={index}
+                className='md:basis-1/2 lg:basis-1/3'
+              >
+                <div className='p-1'>
+                  <Card>
+                    <CardContent className='flex aspect-square items-center justify-center p-6'>
+                      <span className='text-3xl font-semibold'>{index + 1}</span>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+
+        <Carousel className='w-full max-w-sm'>
+          <CarouselContent className='-ml-1'>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <CarouselItem
+                key={index}
+                className='pl-1 md:basis-1/2 lg:basis-1/3'
+              >
+                <div className='p-1'>
+                  <Card>
+                    <CardContent className='flex aspect-square items-center justify-center p-6'>
+                      <span className='text-2xl font-semibold'>{index + 1}</span>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+
+        <div className='h-14' />
+
+        <Carousel
+          opts={{
+            align: 'start',
+            loop: true,
+          }}
+          orientation='vertical'
+          className='w-full max-w-xs'
+        >
+          <CarouselContent className='-mt-1 h-[200px]'>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <CarouselItem
+                key={index}
+                className='pt-1 md:basis-1/2'
+              >
+                <div className='p-1'>
+                  <Card>
+                    <CardContent className='flex items-center justify-center p-6'>
+                      <span className='text-3xl font-semibold'>{index + 1}</span>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+
+        <div className='h-14' />
+
+        <div className='mx-auto max-w-xs'>
+          <Carousel
+            setApi={setApi}
+            className='w-full max-w-xs'
+            plugins={[plugin.current]}
+            onMouseEnter={plugin.current.stop}
+            onMouseLeave={plugin.current.reset}
+          >
+            <CarouselContent>
+              {Array.from({ length: 5 }).map((_, index) => (
+                <CarouselItem key={index}>
+                  <Card>
+                    <CardContent className='flex aspect-square items-center justify-center p-6'>
+                      <span className='text-4xl font-semibold'>{index + 1}</span>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+          <div className='py-2 text-center text-sm text-muted-foreground'>
+            Slide {current} of {count}
+          </div>
+        </div>
+
+        <div className='h-14' />
       </div>
     )
   },

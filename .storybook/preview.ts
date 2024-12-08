@@ -1,6 +1,6 @@
-import type { Preview } from '@storybook/react'
+import { reactRouterParameters, withRouter } from 'storybook-addon-remix-react-router'
 
-import { withRouter, reactRouterParameters } from 'storybook-addon-remix-react-router';
+import type { Preview } from '@storybook/react'
 
 import '#core/infrastructure/modern-normalize/global.css'
 import '#core/infrastructure/tailwindcss/global.css'

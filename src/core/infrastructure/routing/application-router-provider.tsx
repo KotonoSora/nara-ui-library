@@ -25,7 +25,7 @@ function convert<A, L, C, E>([clientAction, clientLoader, Component, ErrorBounda
 
 const routers: RouteObject[] = [
   {
-    path: '/',
+    path: '/nara-ui-library/',
     index: true,
     lazy: async () =>
       Promise.all([

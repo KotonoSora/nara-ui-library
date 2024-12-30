@@ -28,3 +28,11 @@ src/core/infrastructure/tailwindcss/global.css
 # Allow plugins and its contents
 !plugins/
 !plugins/**
+
+# Allow storybook and its contents
+!.storybook/
+!.storybook/**
+
+# Allow src/stories and its contents
+!src/stories/
+!src/stories/**

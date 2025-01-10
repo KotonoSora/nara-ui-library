@@ -2,7 +2,7 @@
   "name": "@kotonosora/nara-ui-library",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KotonoSora/nara-ui-library.git"
+    "url": "git@github.com:KotonoSora/nara-ui-library.git"
   },
   "private": true,
   "version": "3.7.0",

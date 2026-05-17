@@ -1,19 +1,19 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
   "compilerOptions": {
-    /* Path Aliases */
+    "ignoreDeprecations": "6.0",
+    "composite": true,
+    "strict": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": [],
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "#root/*": ["./src/*"],
-      "#assets/*": ["./src/assets/*"],
-      "#core/*": ["./src/core/*"],
-      "#features/*": ["./src/features/*"],
-      "#plugins/*": ["./plugins/*"],
-      "#tests/*": ["./tests/*"]
-    }
+      "@/*": ["./src/*"]
+    },
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   }
 }

@@ -47,7 +47,7 @@ function createComponentFile(componentName) {
     throw new Error(`Component already exists: ${componentName}`);
   }
 
-  const template = `import { cn } from "@/lib/utils";
+  const template = `import { cn } from "cn";
 
 type ${pascalName}Props = React.ComponentProps<"div">;
 

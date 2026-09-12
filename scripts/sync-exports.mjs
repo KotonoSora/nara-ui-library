@@ -64,11 +64,6 @@ function main() {
     filesList.push(rel.slice(2));
   }
 
-  if (fs.existsSync(libUtilsPath)) {
-    exportsMap["./lib/utils"] = "./src/lib/utils.ts";
-    filesList.push("src/lib/utils.ts");
-  }
-
   if (fs.existsSync(stylesGlobalsPath)) {
     exportsMap["./styles/globals"] = "./src/styles/globals.css";
     filesList.push("src/styles/globals.css");
